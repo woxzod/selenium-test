@@ -1,0 +1,22 @@
+var webdriver = require('selenium-webdriver');
+var driver = new webdriver.Builder().forBrowser('chrome').build();
+driver.get('https://mobile.optochka.com')
+driver.findElement(webdriver.By.className('MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeStandart MuiButton-containedSizeStandart MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeStandart MuiButton-containedSizeStandart MuiButton-disableElevation css-2b0to7')).click();
+driver.findElement(webdriver.By.name('phoneNumber')).sendKeys('937505502');
+driver.findElement(webdriver.By.name('password')).sendKeys('1234567890');
+driver.findElement(webdriver.By.className('MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeStandart MuiButton-containedSizeStandart MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeStandart MuiButton-containedSizeStandart MuiButton-disableElevation css-2b0to7')).click();
+driver.findElement(webdriver.By.className('css-1xw0e9i')).click();
+driver.findElement(webdriver.By.className('MuiTypography-root MuiTypography-body1 css-xya9bl')).click();
+driver.findElement(webdriver.By.name('phone')).sendKeys('937505502');
+driver.findElement(webdriver.By.className('MuiTypography-root MuiTypography-body1 css-h35onj')).click();
+driver.findElement(webdriver.By.className('ymaps-2-1-79-events-pane ymaps-2-1-79-user-selection-none')).click();
+driver.findElement(webdriver.By.className('MuiTypography-root MuiTypography-body1 css-nfatyo')).click();
+driver.findElement(webdriver.By.className('MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-fullWidth css-18grk9m')).click();
+driver.findElement(webdriver.By.className('MuiTypography-root MuiTypography-body1 css-1lstpxn')).click();
+driver.findElement(webdriver.By.className('MuiTypography-root MuiTypography-h4 css-13l303w')).click();
+driver.findElement(webdriver.By.className('MuiTypography-root MuiTypography-body1 css-t11is1')).click();
+driver.findElement(webdriver.By.className('MuiTypography-root MuiTypography-body1 css-t11is1')).click();
+driver.findElement(webdriver.By.className('MuiTypography-root MuiTypography-body1 css-t11is1')).click();
+driver.findElement(webdriver.By.className('MuiStack-root css-1azyqxb')).click();
+driver.findElement(webdriver.By.className('MuiTypography-root MuiTypography-body1 css-1t5hf7t')).click();
+driver.findElement(webdriver.By.className('MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation css-1c0p5wt')).click();

@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "chai": "^5.1.1",
+    "chromedriver": "^128.0.1",
+    "dotenv": "^16.4.5",
+    "mochawesome": "^7.1.3",
+    "selenium-webdriver": "^4.24.0"
+  },
+  "name": "selenium",
+  "version": "1.0.0",
+  "main": "opt.js",
+  "scripts": {
+    "test": "mocha --no-timeouts --parallel --reporter mochawesome --require mochawesome/register"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "mocha": "^10.7.3"
+  }
+}
