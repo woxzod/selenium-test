@@ -1,7 +1,6 @@
 const { Builder, By, until } = require("selenium-webdriver");
 require('dotenv').config({ path: '.env' });
 const { describe, it, before, after } = require('mocha');
-const { elementLocated } = require("selenium-webdriver/lib/until");
 
 describe("Optochka Test", function () {
     let driver;
@@ -17,70 +16,50 @@ describe("Optochka Test", function () {
         await driver.quit();
     });
 
-
-
-
-
-
     it("Login to Apple", async function () {
-        this.timeout(120000);
-
-
+        this.timeout(timeout);
 
         // Navigate to the application
-        const url = (process.env.PROD_URL);
-        await driver.get(url)
-        console.log('Current URL is:',url)
-
-
-
-
-
-
-
+        const url = process.env.PROD_URL;
+        await driver.get(url);
+        console.log('Current URL is:', url);
 
         // Click login button
         const firstLoginButton = await driver.wait(
             until.elementLocated(By.css('.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary')),
-            timeout );
+            timeout
+        );
         await firstLoginButton.click();
-
-
 
         // Send brand phone number for login
         const phoneNumberInput = await driver.wait(
             until.elementLocated(By.name('phoneNumber')),
-            timeout );
+            timeout
+        );
         await phoneNumberInput.sendKeys(process.env.APPLE_LOGIN);
-
-
 
         // Send brand password
         const passwordInput = await driver.wait(
             until.elementLocated(By.name('password')),
-            timeout );
+            timeout
+        );
         await passwordInput.sendKeys(process.env.APPLE_PASS);
-
-
 
         // Wait for and click the login button
         const loginButton = await driver.wait(
             until.elementLocated(By.css('.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary')),
+            timeout
         );
         await loginButton.click();
 
-
         const clickOrdersPage = await driver.wait(
             until.elementLocated(By.id('orders')),
-             );
+            timeout
+        );
         await clickOrdersPage.click();
 
-        await driver.sleep(1500); 
-
+        await driver.sleep(1500);
     });
-
-
-     
 
     it("Create delivery order", async function () {
         try {
@@ -88,7 +67,7 @@ describe("Optochka Test", function () {
             
             const clickCreateOrder = await driver.wait(
                 until.elementLocated(By.className("MuiStack-root css-up0epx")),
-                10000
+                timeout
             );
             await clickCreateOrder.click();
     
@@ -102,7 +81,7 @@ describe("Optochka Test", function () {
             await clientNumber.sendKeys("937505502");
     
             const orderType = await driver.wait(
-                until.elementLocated(By.xpath('//*[@id="root"]/div[1]/main/div/div/div/div[2]/div/div[1]/div[2]/div[1]/button[1]/p')),   
+                until.elementLocated(By.xpath('//*[@id="root"]/div[1]/main/div/div/div/div[2]/div/div[1]/div[2]/div[1]/button[1]/p')),
                 timeout
             );
             await orderType.click();
@@ -115,103 +94,26 @@ describe("Optochka Test", function () {
     
             const selectLocation = await driver.wait(
                 until.elementLocated(By.xpath('//ul/li[2]')),
-                20000
+                timeout
             );
             await selectLocation.click();
     
             const clickMoyKuryer = await driver.wait(
-                until.elementLocated(By.css('.MuiStack-root.css-1a7iqnr'))
+                until.elementLocated(By.css('.MuiStack-root.css-1a7iqnr')),
+                timeout
             );
             await clickMoyKuryer.click();
-    
+            
+            // Correct CSS selector
+            const addProduct = await driver.wait(
+                until.elementLocated(By.css('.MuiTypography-root.MuiTypography-body1.css-1lstpxn')),
+                timeout
+            );
+            await driver.wait(until.elementIsVisible(addProduct), timeout);
+            await addProduct.click();
+
         } catch (error) {
             console.error('Error occurred:', error);
         }
     });
-    
-    });
-               
-               
-               
-           
-           
-           
-           
-           
-           
-           
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-           
-           //    await driver.sleep(1500); 
-           //    const pageSource = await driver.getPageSource();
-           //    console.log(pageSource);
-   
-           // const overlay = await driver.findElement(By.css('.css-17sc1ql'));
-           // await driver.wait(until.elementIsNotVisible(overlay), timeout);
-           
-           // // Now click the desired element
-           // const clickableElement = await driver.findElement(By.css('.MuiStack-root.css-up0epx'));
-           // await clickableElement.click();
-   
-           // const iframe = await driver.findElement(By.css("iframe"))
-           // await driver.actions()
-           //   .scroll(1, 2, 2, 2, iframe)
-           //   .perform()
-               
-           // const isVisible = await doorInfo.isDisplayed();
-           // console.log('Element visibility:', isVisible);
-           
-           // const elementExists = await driver.executeScript('return document.querySelector(".MuiInputBase-input.MuiOutlinedInput-input.css-1x5jdmq") !== null');
-           // console.log('Element exists:', elementExists);
-           
-           // await driver.manage().setTimeouts({ implicit: 2000 });
-           // await driver.sleep(1000); 
-   
-           // Door Info
-           // const doorInfo = await driver.wait(
-           //     until.elementIsVisible(driver.findElement(By.css('.MuiInputBase-input.MuiOutlinedInput-input.css-1x5jdmq'))), timeout
-           // );
-           // await doorInfo.sendKeys('36');
-               
-           //  Entrance Info
-           // const entranceInfo = await driver.wait(
-           // until.elementLocated(By.id(":r15:")), 
-           // timeout );
-           // await entranceInfo.sendKeys('2')
-           
-           //  Floor Info
-           // const floorInfo = await driver.wait(
-           //     until.elementLocated(By.id(":rn:")),
-           //     timeout );
-           // await floorInfo.sendKeys('4')
-           
-           //           Click map 
-           // const clickMap = await driver.wait(
-           //     until.elementLocated(By.xpath('//*[@id="root"]/div[1]/main/div/div/div/div[2]/div/div[1]/div[2]/div[2]/div[2]/div/ymaps/ymaps/ymaps/ymaps[1]')),
-           //     timeout ) ;
-           //    await driver.manage().setTimeouts({ implicit: 2000 });
-           //    await clickMap.click();
-   
-   
+});
