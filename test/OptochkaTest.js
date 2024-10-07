@@ -1,14 +1,18 @@
-const { Builder, By, until } = require("selenium-webdriver");
+const { Builder, By, until, Actions } = require("selenium-webdriver");
+const { Options } = require("selenium-webdriver/chrome");
+const chrome = require('selenium-webdriver/chrome'); // Import Chrome options
 require('dotenv').config({ path: '.env' });
 const { describe, it, before, after } = require('mocha');
 
 describe("Optochka Test", function () {
     let driver;
-    const timeout = 120000; // Timeout for waiting elements
+    const timeout = 60000; // Timeout for waiting elements
 
     // Initialize the driver before any tests run
     before(async function () {
-        driver = await new Builder().forBrowser("chrome").build();
+        let options = new chrome.Options();
+        options.addArguments("--auto-open-devtools-for-tabs");
+        driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
     });
 
     // Quit the driver after all tests are done
@@ -18,6 +22,7 @@ describe("Optochka Test", function () {
 
     it("Login to Apple", async function () {
         this.timeout(timeout);
+        driver.manage().setTimeouts({ implicit: 15000, pageLoad: 15000, script: 10000 });
 
         // Navigate to the application
         const url = process.env.PROD_URL;
@@ -56,6 +61,33 @@ describe("Optochka Test", function () {
             until.elementLocated(By.id('orders')),
             timeout
         );
+
+
+
+        const retryClick = async (clickOrdersPage, retries = 3) => {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    await clickOrdersPage.click();
+                    return; // Success
+                } catch (error) {
+                    if (i === retries - 1) throw error; // Rethrow if final attempt fails
+                    await driver.sleep(500); // Wait before retrying
+                }
+            }
+        };
+        
+        await retryClick(clickOrdersPage);
+        
+
+
+
+
+
+
+
+
+
+
         await clickOrdersPage.click();
 
         await driver.sleep(1500);
@@ -63,12 +95,22 @@ describe("Optochka Test", function () {
 
     it("Create delivery order", async function () {
         try {
-            driver.manage().setTimeouts({ implicit: 10000, pageLoad: 10000, script: 5000 });
+            driver.manage().setTimeouts({ implicit: 15000, pageLoad: 15000, script: 10000 });
             
             const clickCreateOrder = await driver.wait(
                 until.elementLocated(By.className("MuiStack-root css-up0epx")),
-                timeout
-            );
+                timeout);
+                await driver.takeScreenshot().then(function(image, err) {
+                    require('fs').writeFileSync('error-screenshot.png', image, 'base64');
+                  });
+  
+                  
+
+
+
+
+            await driver.sleep(1500);
+            await driver.wait(until.elementIsVisible(clickCreateOrder), timeout); 
             await clickCreateOrder.click();
     
             let currentUrl = await driver.getCurrentUrl();
@@ -111,6 +153,56 @@ describe("Optochka Test", function () {
             );
             await driver.wait(until.elementIsVisible(addProduct), timeout);
             await addProduct.click();
+
+
+            const clickCategory = await driver.wait
+            (until.elementLocated(By.xpath("//div[2]/div/div/div[1]/div/div/div[1]/li")),
+            timeout );
+            await driver.wait(until.elementIsVisible(clickCategory), timeout); 
+            await clickCategory.click();
+
+
+
+
+            const clickProduct = await driver.wait(until.elementLocated(By.xpath("/html/body/reach-portal/div/div[2]/div[2]/div/div/div[1]/div/div/div[2]/li/img")),
+            timeout);
+            // let actions = new Actions(driver);
+            await driver.actions().doubleClick(clickProduct).perform();
+            // await clickProduct.click();
+
+
+
+            const clickAdd = await driver.wait(until.elementLocated(By.className('MuiStack-root css-1azyqxb')),     timeout);
+            await clickAdd.click();
+
+            const clickSecondAdd = await driver.wait(until.elementLocated(By.className('MuiStack-root css-uygv5t')),     timeout);
+            await clickSecondAdd.click();
+
+
+
+            const clickCreate = await driver.wait(until.elementLocated(By.className('MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation css-1c0p5wt')), timeout)
+            await clickCreate.click();
+ 
+
+            await driver.sleep(15000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
 
         } catch (error) {
             console.error('Error occurred:', error);
