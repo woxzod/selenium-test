@@ -94,24 +94,29 @@ describe("Optochka Test", function () {
     });
 
     it("Create delivery order", async function () {
+        this.timeout(20000);
         try {
             driver.manage().setTimeouts({ implicit: 15000, pageLoad: 15000, script: 10000 });
             
             const clickCreateOrder = await driver.wait(
-                until.elementLocated(By.className("MuiStack-root css-up0epx")),
+                until.elementLocated(By.className("MuiTypography-root MuiTypography-body1 css-xya9bl")),
                 timeout);
                 await driver.takeScreenshot().then(function(image, err) {
                     require('fs').writeFileSync('error-screenshot.png', image, 'base64');
                   });
-  
+            await driver.sleep(1500);
+            // await driver.wait(until.elementLocated(clickCreateOrder), timeout); 
+            await clickCreateOrder.click();
+
+
+
+
+
                   
 
 
 
 
-            await driver.sleep(1500);
-            await driver.wait(until.elementIsVisible(clickCreateOrder), timeout); 
-            await clickCreateOrder.click();
     
             let currentUrl = await driver.getCurrentUrl();
             console.log('Current URL is', currentUrl);
