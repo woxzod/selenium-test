@@ -3,6 +3,24 @@ const chrome = require("selenium-webdriver/chrome"); // Import Chrome options
 require("dotenv").config({ path: ".env" });
 const { describe, it, before, after } = require("mocha");
 
+
+
+const SELECTORS = {
+    clickSimpleProductAdd: "text-center border w-full py-2 text-12px font-[500] rounded-[7.82px]",
+    productWithOption: "MuiStack-root flex  gap-1   flex-col pb-[150px]  py-4 px-4  css-961dvd",
+    clickOption: "MuiStack-root css-ehoejh",
+    clickAddProductWithOption: "MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall flex-1 relative overflow-hidden active:scale-90 duration-100 bg-[#ffffffff] css-h3h6kv",
+    clickGoToCheckOut: "MuiStack-root shadow css-12ozkpp",
+    clickGoToPayment: "MuiStack-root shadow css-1nqzyfv",
+    clickToOrder: "MuiTypography-root MuiTypography-body1 css-1jtvonp",
+    deliveryOrderCreated: "MuiDialogContent-root css-1ty026z",
+    closeOrderToast: "MuiTypography-root MuiTypography-body1 css-jgd77t",
+};
+
+
+
+
+
 describe("Optochka Test", function () {
     let driver;
     const timeout = 60000; // Timeout for waiting elements
@@ -16,7 +34,7 @@ describe("Optochka Test", function () {
 
     // Quit the driver after all tests are done
     after(async function () {
-        await driver.quit();
+        // await driver.quit();
     });
 
     it("Open WebApp", async function () {
@@ -39,8 +57,8 @@ describe("Optochka Test", function () {
 
             // First action: Click the simple product add button
             const clickSimpleProductAdd = await driver.wait(
-                until.elementLocated(By.className('text-center border w-full py-2 text-12px font-[500] rounded-[7.82px]')),
-                timeout
+                until.elementLocated(By.className(SELECTORS.clickSimpleProductAdd)),
+
             );
 
             // Scroll to the element to ensure it is in the viewport
@@ -77,9 +95,8 @@ describe("Optochka Test", function () {
                     until.elementLocated(By.className('MuiStack-root css-ehoejh')),
                     timeout
                 );
-                 clickOption.click();
+                clickOption.click();
                 console.log("Option selected for product with options.");
-                await driver.sleep(1000);
 
                 const clickAddProductWithOption = await driver.wait(
                     until.elementLocated(By.className('MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall flex-1 relative overflow-hidden active:scale-90 duration-100 bg-[#ffffffff] css-h3h6kv')),
@@ -87,69 +104,95 @@ describe("Optochka Test", function () {
                 );
                 await clickAddProductWithOption.click();
                 console.log("Added product with options.");
-                await driver.sleep(1000);
-            } else {
-                // Re-locate the simple product add button
-                const clickSimpleProductAddAgain = await driver.wait(
-                    until.elementLocated(By.className('text-center border w-full py-2 text-12px font-[500] rounded-[7.82px]')),
-                    timeout
-                );
 
-                // Scroll and retry click
-                await driver.executeScript("arguments[0].scrollIntoView(true);", clickSimpleProductAddAgain);
+            // } else {
+            //     // Re-locate the simple product add button
+            //     const clickSimpleProductAddAgain = await driver.wait(
+            //         until.elementLocated(By.className('text-center border w-full py-2 text-12px font-[500] rounded-[7.82px]')),
+            //         timeout
+            //     );
 
-                try {
-                    await clickSimpleProductAddAgain.click();
-                    console.log("Simple product add button clicked again.");
-                } catch (retryError) {
-                    console.log("Retry click intercepted, retrying with JavaScript.");
-                    await driver.executeScript("arguments[0].click();", clickSimpleProductAddAgain);
-                    console.log("Simple product add button clicked again using JavaScript.");
-                }
+            //     // Scroll and retry click
+            //     await driver.executeScript("arguments[0].scrollIntoView(true);", clickSimpleProductAddAgain);
+
+            //     try {
+            //         await clickSimpleProductAddAgain.click();
+            //         console.log("Simple product add button clicked again.");
+            //     } catch (retryError) {
+            //         console.log("Retry click intercepted, retrying with JavaScript.");
+            //         await driver.executeScript("arguments[0].click();", clickSimpleProductAddAgain);
+            //         console.log("Simple product add button clicked again using JavaScript.");
+            //     }
 
             }
 
 
 
-                const clickGoToCheckOut = await driver.wait(
-                    until.elementLocated(By.className('MuiStack-root shadow css-12ozkpp')),
-                    timeout
-                );
-            
-                await driver.executeScript("arguments[0].scrollIntoView(true);", clickGoToCheckOut);
-                // await driver.wait(until.elementIsVisible(clickGoToCheckOut), timeout);
-                // console.log("'clickGoToCheckOut' is visible.");
-                await clickGoToCheckOut.click();
-                console.log("Go to Checkout button clicked.");
+            const clickGoToCheckOut = await driver.wait(
+                until.elementLocated(By.className('MuiStack-root shadow css-12ozkpp')),
+                timeout
+            );
+
+
+            await clickGoToCheckOut.click();
+            console.log("Go to Checkout button clicked.");
 
 
 
 
-                const clickGoToPayment = await driver.wait(until.elementLocated(By.className('MuiStack-root shadow css-1nqzyfv')),timeout);
-                await clickGoToPayment.click();
-                console.log('Clicked clickGoToPayment')
+            const clickGoToPayment = await driver.wait(until.elementLocated(By.className('MuiStack-root shadow css-1nqzyfv')), timeout);
+            await clickGoToPayment.click();
+            console.log('Clicked clickGoToPayment')
 
 
-                const clickToOrder = await driver.wait(until.elementLocated(By.className('MuiTypography-root MuiTypography-body1 css-1jtvonp')),timeout);
-                await driver.wait(until.elementIsVisible(clickToOrder), timeout);
+            const clickToOrder = await driver.wait(until.elementLocated(By.className('MuiTypography-root MuiTypography-body1 css-1jtvonp')), timeout);
+            await driver.wait(until.elementIsVisible(clickToOrder), timeout);
 
-                await clickToOrder.click();
-    
-                const deliveryOrderCreated = await driver.wait(until.elementLocated(By.className('MuiDialogContent-root css-1ty026z')),timeout);
-                await driver.wait(until.elementIsVisible(deliveryOrderCreated), timeout);
-                console.log('Delivery order created succesfully')
+            await clickToOrder.click();
 
-
-                const closeOrderToast = await driver.wait(until.elementLocated(By.className('MuiTypography-root MuiTypography-body1 css-jgd77t')),timeout);
-                await driver.wait(until.elementIsVisible(closeOrderToast),timeout );
-                await closeOrderToast.click();
+            const deliveryOrderCreated = await driver.wait(until.elementLocated(By.className('MuiDialogContent-root css-1ty026z')), timeout);
+            await driver.wait(until.elementIsVisible(deliveryOrderCreated), timeout);
+            console.log('Delivery order created succesfully')
 
 
+            const closeOrderToast = await driver.wait(until.elementLocated(By.className('MuiTypography-root MuiTypography-body1 css-jgd77t')), timeout);
+            await driver.wait(until.elementIsVisible(closeOrderToast), timeout);
+            await closeOrderToast.click();
+            console.log('Toast closed')
 
 
-                
 
-            await  driver.sleep(10000); 
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            await driver.sleep(10000);
 
 
 
